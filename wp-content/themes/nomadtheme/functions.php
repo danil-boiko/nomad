@@ -178,6 +178,49 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+// хук для регистрации
+add_action( 'init', 'create_taxonomy' );
+function create_taxonomy(){
+
+	// список параметров: wp-kama.ru/function/get_taxonomy_labels
+	register_taxonomy( 'trip_type', [ 'trip' ], [
+		'label'                 => '', // определяется параметром $labels->name
+		'labels'                => [
+			'name'              => 'Тип путешествия',
+			'singular_name'     => 'Тип путешествия',
+			'search_items'      => 'Поиск по типу путешествия',
+			'all_items'         => 'Все типы путешествий',
+			'view_item '        => 'Просмотреть тип путешествия',
+			'parent_item'       => 'Родительский тип путешествия',
+			'parent_item_colon' => 'Родительский тип путешествия:',
+			'edit_item'         => 'Редактировать тип путешествия',
+			'update_item'       => 'Обновить тип путешествия',
+			'add_new_item'      => 'Добавить новый тип путешествия',
+			'new_item_name'     => 'Новое имя типа путешествия',
+			'menu_name'         => 'Тип путешествия',
+		],
+		'description'           => '', // описание таксономии
+		'public'                => true,
+		// 'publicly_queryable'    => null, // равен аргументу public
+		// 'show_in_nav_menus'     => true, // равен аргументу public
+		// 'show_ui'               => true, // равен аргументу public
+		// 'show_in_menu'          => true, // равен аргументу show_ui
+		// 'show_tagcloud'         => true, // равен аргументу show_ui
+		// 'show_in_quick_edit'    => null, // равен аргументу show_ui
+		'hierarchical'          => true,
+
+		'rewrite'               => array('slug' => 'trip', 'with_front' => false),
+		//'query_var'             => $taxonomy, // название параметра запроса
+		'capabilities'          => array(),
+		'meta_box_cb'           => null, // html метабокса. callback: `post_categories_meta_box` или `post_tags_meta_box`. false — метабокс отключен.
+		'show_admin_column'     => false, // авто-создание колонки таксы в таблице ассоциированного типа записи. (с версии 3.5)
+		'show_in_rest'          => null, // добавить в REST API
+		'rest_base'             => null, // $taxonomy
+		// '_builtin'              => false,
+		//'update_count_callback' => '_update_post_term_count',
+	] );
+}
+
 add_action( 'init', 'register_post_types' );
 function register_post_types(){
 	register_post_type( 'trip', [
@@ -213,10 +256,29 @@ function register_post_types(){
 		//'map_meta_cap'      => null, // Ставим true чтобы включить дефолтный обработчик специальных прав
 		'hierarchical'        => false,
 		'supports'            => [ 'title', 'editor','author','thumbnail','excerpt' ], // 'title','editor','author','thumbnail','excerpt','trackbacks','custom-fields','comments','revisions','page-attributes','post-formats'
-		'taxonomies'          => [],
-		'has_archive'         => true,
-		'rewrite'             => true,
+		'taxonomies'          => ['trip_type'],
+		'has_archive'         => trip,
+		'rewrite'             => array('slug' => 'trip/%trip_type%', 'with_front' => false),
 		'query_var'           => true,
-	] );
+	] );	
+}
+
+add_filter( 'post_type_link', 'trip_permalink', 1, 2 );
+function trip_permalink($permalink, $post){
+	//Выходим если это не тип записи trip_type
+	if( strpos($permalink, '%trip_type%') === false)
+		return $permalink;
+
+	//Получаем элементы таксономии
+	$terms = get_the_terms($post, 'trip_type');
+	//Если есть элемент, то заменяем ярлык
+	if( ! is_wp_error($terms) && !empty($terms) && is_object($terms[0]) )
+		$term_slug = array_pop($terms)->slug;
+	//Если такого элмента нет
+	else
+		$term_slug = 'no-trip_type';
+
+	return str_replace('%trip_type%', $term_slug, $permalink);
+
 }
 
