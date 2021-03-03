@@ -21,15 +21,14 @@
 			</ul>
 		</div>
 		<div class="footer-bottom">
-			<nav class="footer-menu">
-				<ul>
-					<li><a href="#">Путешествия</a></li>
-					<li><a href="#">Рассказы</a></li>
-					<li><a href="#">О проекте</a></li>
-					<li><a href="#">О компании</a></li>
-					<li><a href="#">Контакты</a></li>
-				</ul>
-			</nav>
+		<?php
+			wp_nav_menu( [
+			'theme_location'  => 'footer-menu',
+			'container'       => 'div', 
+			'container_class' => 'footer-menu', 
+			'menu_class'      => ''
+			] );
+		?>
 			<div class="copyright">© 2021 NOMAD</div>
 		</div>
 	</footer>

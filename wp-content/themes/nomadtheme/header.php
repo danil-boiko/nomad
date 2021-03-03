@@ -23,30 +23,30 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
-	<header id="masthead" class="site-header">
+	<header id="masthead" class="header-main site-header <?php if(!is_front_page()) echo 'header-position'; ?>">
 		<div class="logo"><a href="/"><img src="<?php echo get_template_directory_uri();?>/assets/img//logo-black.svg" alt="Логотип"></a></div>
 		<div class="main-menu">
-			<nav class="destkop-menu">
-				<ul>
-					<li><a href="#">Путешествия</a></li>
-					<li><a href="#">Рассказы</a></li>
-					<li><a href="#">О компании</a></li>
-				</ul>
-			</nav>
-			<a href="#" class="hamburger hamburger--slider">
+			<?php
+			wp_nav_menu( [
+				'theme_location'  => 'top-menu',
+				'container'       => 'nav', 
+				'container_class' => 'destkop-menu', 
+				'menu_class'      => ''
+			] );
+			?>
+			<div class="hamburger hamburger--slider">
 				<span class="hamburger-box">
 					<span class="hamburger-inner"></span>
 				</span>
-				</button></a>
+			</div>
 		</div>
 	</header>
-	<div class="mobile-menu">
-		<ul class="m-menu">
-			<li><a href="">Путешествия</a></li>
-			<li><a href="">Статьи</a></li>
-			<li><a href="">О проекте</a></li>
-			<li><a href="">О компании</a></li>
-			<li><a href="">Контакты</a></li>
-		</ul>
-	</div>
+	<?php
+		wp_nav_menu( [
+			'theme_location'  => 'main-menu',
+			'container'       => 'div', 
+			'container_class' => 'mobile-menu', 
+			'menu_class'      => 'm-menu'
+		] );
+	?>
 <div id="content" class="site-content">

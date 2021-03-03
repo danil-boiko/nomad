@@ -202,7 +202,7 @@ header {
   left: 0;
   top: 0;
   width: 100%;
-  padding: 15px 56px;
+  padding: 16px 56px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -707,9 +707,29 @@ footer .footer-bottom .copyright {
   display: none;
 }
 
+/*Проблема с position:absolute; в архивах*/
+.header-position {
+  position: relative;
+  background-color: #d1f9fc;
+}
+
+.page-header {
+  position: relative;
+}
+
+.entry-header {
+  position: relative;
+}
+
+.entry-footer {
+  background-color: #ffffff;
+}
+
+/*Проблема с position:absolute; в архивах*/
+
 @media (max-width: 1399.98px) {
   header {
-    padding: 16px 32px;
+    padding: 10px 32px;
   }
   .welcome .block {
     padding: 0 32px;
