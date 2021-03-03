@@ -24,7 +24,7 @@
 <?php wp_body_open(); ?>
 <div id="page" class="site">
 	<header id="masthead" class="header-main site-header <?php if(!is_front_page()) echo 'header-position'; ?>">
-		<div class="logo"><a href="/"><img src="<?php echo get_template_directory_uri();?>/assets/img//logo-black.svg" alt="Логотип"></a></div>
+		<div class="logo"><a href="/"><img src="<?php echo carbon_get_theme_option( 'crb_logo_black' ); ?>" alt="Логотип"></a></div>
 		<div class="main-menu">
 			<?php
 			wp_nav_menu( [
