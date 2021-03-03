@@ -30,45 +30,34 @@ get_header();
 		<section class="trips">
 			<div class="head-section">
 				<h2>Выбери свое путешествие</h2>
-				<a href="#"><i class="fas fa-arrow-right"></i></a>
+				<a href="<?php echo get_post_type_archive_link( 'trip' ); ?>"><i class="fas fa-arrow-right"></i></a>
 			</div>
 			<div class="container-trips">
-				<a href="#" class="trip">
+				<?php 
+					$posts = get_posts(array(
+						'post_per_page' => 3,
+						'post_type' => 'trip'
+					));
+					foreach($posts as $post){
+						setup_postdata( $post );
+				?>
+				<a href="<?php the_permalink(); ?>" class="trip">
 					<div class="trip-header">
-						<h3>Вулканы и серфинг</h3>
-						<p>Попробовать серфинг, покупаться в разных океанах. Взобраться на настоящий вулкан и...</p>
+						<h3><?php the_title(); ?></h3>
+						<?php the_excerpt(); ?>
 					</div>
+				<?php the_post_thumbnail(); ?>
 
-					<img src="<?php echo get_template_directory_uri();?>/assets/img/@1x/trip-indonesia.jpg" alt="">
 					<div class="trip-footer">
-						<div class="country"><i class="fas fa-globe-americas"></i> Индонезия</div>
-						<div class="time"><i class="far fa-clock"></i> 2 недели</div>
+						<div class="country"><i class="fas fa-globe-americas"></i><?php echo carbon_get_post_meta( get_the_ID(), 'crb_country' ); ?></div>
+						<div class="time"><i class="far fa-clock"></i><?php echo carbon_get_post_meta( get_the_ID(), 'crb_date' ); ?></div>
 					</div>
 				</a>
-				<a href="#" class="trip">
-					<div class="trip-header">
-						<h3>Снорклинг с дельфинами и черепахой</h3>
-						<p>Расскажем про секретные локации, где можно поснорклить с черепахой и дельфинами. А...</p>
-					</div>
-
-					<img src="<?php echo get_template_directory_uri();?>/assets/img/@1x/trip-thailand.jpg" alt="">
-					<div class="trip-footer">
-						<div class="country"><i class="fas fa-globe-americas"></i> Thailand</div>
-						<div class="time"><i class="far fa-clock"></i> 1 неделя</div>
-					</div>
-				</a>
-				<a href="#" class="trip">
-					<div class="trip-header">
-						<h3>Дайвинг в пещерах</h3>
-						<p>Любишь экстрим? Дайвинг в пещерах, прыжки с водопадов, рафтинг. А как еще насчет, ...</p>
-					</div>
-
-					<img src="<?php echo get_template_directory_uri();?>/assets/img/@1x/trip-india.jpg" alt="">
-					<div class="trip-footer">
-						<div class="country"><i class="fas fa-globe-americas"></i> Индонезия</div>
-						<div class="time"><i class="far fa-clock"></i> 2 недели</div>
-					</div>
-				</a>
+				<?php 
+				}
+				wp_reset_postdata();
+				?>
+				
 			</div>
 
 

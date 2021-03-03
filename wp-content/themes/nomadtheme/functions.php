@@ -25,6 +25,12 @@ function crb_attach_theme_options() {
 			Field::make( 'text', 'crb_instagram', __( 'Instagram' ) )
 				->set_attribute( 'type', 'url' ),
         ) );
+	Container::make( 'post_meta', __( 'Страна и срок путешествия' ) )
+		->where('post_type', '=', 'trip')
+		->add_fields( array(
+			Field::make( 'text', 'crb_country', __( 'Страна' ) ),
+			Field::make( 'text', 'crb_date', __( 'Срок' ) )
+	) );
 }
 
 if ( ! defined( '_S_VERSION' ) ) {
