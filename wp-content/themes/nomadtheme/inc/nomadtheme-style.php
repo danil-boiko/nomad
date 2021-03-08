@@ -14,5 +14,7 @@ function nomadtheme_style() {
 
 	wp_style_add_data( 'nomadtheme-style', 'rtl', 'replace' );
 
+	wp_enqueue_style( 'nomadtheme-page', get_template_directory_uri() . '/assets/css/page.css');
+
 }
 add_action( 'wp_enqueue_scripts', 'nomadtheme_style' );

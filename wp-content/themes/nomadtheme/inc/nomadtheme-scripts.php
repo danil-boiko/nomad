@@ -5,7 +5,7 @@
  */
 function nomadtheme_scripts() {
 
-	wp_enqueue_script( 'nomadtheme-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+	//wp_enqueue_script( 'nomadtheme-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 
 	wp_enqueue_script('jquery');
 	
